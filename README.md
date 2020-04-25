@@ -6,8 +6,6 @@ a simple guess number game ( ?A ?B game)
 * Python 3.0
 
 ## 環境(Environment)
-* Windows 10<br>
-* Anaconda 3<br>
 * Python 3.6
 
 ## 前言(Foreword)
