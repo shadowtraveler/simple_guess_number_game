@@ -22,7 +22,9 @@ def CheckNumber(ans,guess):
 
 def MyGuess(num):
     tmp=[]
-    if(num<1000):
+    play_num=4
+    first_check=10**(play_num-1)
+    if(num<first_check):
         while(num>10):
             tmp.insert(0,int(num%10))
             num/=10
