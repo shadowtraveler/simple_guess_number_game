@@ -37,21 +37,53 @@ def MyGuess(num):
         tmp.insert(0,int(num))
     return tmp
 
-num=[0,1,2,3,4,5,6,7,8,9,0]
+def easy_com(already_guess={},my_ans=[],play_num=4,guess_time=0):
+    while(1):
+        num=[0,1,2,3,4,5,6,7,8,9]
+        com_ans=random.sample(num,k=play_num)
+        if(already_guess.get(str(com_ans))==None):
+            already_guess[str(com_ans)]=1
+            break
+    print("computer guess:",com_ans)
+    tmp=CheckNumber(my_ans,com_ans)
+    guess_time+=1
+    fin=0
+    if(tmp[0]==play_num):
+        fin=1
+        print("Computer(easy) win the game by ",guess_time," time guesses.")
+        return already_guess,guess_time,fin
+    else:
+        print(tmp[0],"A ",tmp[1],"B")
+        return already_guess,guess_time,fin
+
+num=[0,1,2,3,4,5,6,7,8,9]
 play_num=4
 ans=random.sample(num,k=play_num)
 guess_time=0
 while(1):
-    my_input=""
-    my_input=input("Please input "+str(play_num)+" different number:")
-    if(my_input=='0'):
+    game_mod=""
+    game_mod=input("Play for yourserlf, input 1\nPlay with Computer, input 2\nExit Game, input 0\ninput:")
+    if(game_mod=='1' or game_mod=='2'):
+        com_guess_time=0
+        com_already_guess={}
+        while(1):
+            my_input=""
+            my_input=input("Please input "+str(play_num)+" different number(input 0 to return):")
+            if(my_input=='0'):
+                break
+            guess=MyGuess(int(my_input))
+            tmp=CheckNumber(ans,guess)
+            guess_time+=1
+            if(tmp[0]==play_num):
+                print("You win the game by ",guess_time," time guesses.")
+                break
+            else:
+                print(tmp[0],"A ",tmp[1],"B")
+            if(game_mod=='2'):
+                com_already_guess,com_guess_time,fin=easy_com(already_guess=com_already_guess,my_ans=ans,play_num=play_num,guess_time=com_guess_time)
+                if(fin==1):
+                    break
+    #elif(game_mod=='2'):
+    elif(game_mod=='0'):
         break
-    guess=MyGuess(int(my_input))
-    tmp=CheckNumber(ans,guess)
-    guess_time+=1
-    if(tmp[0]==play_num):
-        print("You win the game by ",guess_time," time guesses.")
-        break
-    else:
-        print(tmp[0],"A ",tmp[1],"B")
     
