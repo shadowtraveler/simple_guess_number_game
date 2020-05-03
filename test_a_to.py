@@ -20,6 +20,29 @@ def CheckNumber(ans,guess):
                     b+=1
     return [a,b]
 
+def cheat(my_ans,my_guess_time):
+    while(1):
+        cheat=""
+        cheat=input("admin mode\nNo cheat!!! No cheat!!!\ninput 1:watch status\ninput 2:see the answer\ninput 3:modified guess time\ninput 0:Exit admin mode\ninput:")
+        if(cheat=='0'):
+            break
+        elif(cheat=='1'):
+            print("your guess time:",my_guess_time)
+            input("Press Enter to continue...")
+        elif(cheat=='2'):
+            print("answer:",my_ans)
+            input("Press Enter to continue...")
+        elif(cheat=='3'):
+            try:
+                tmp=int(input("input number to modify your guess time"))
+                my_guess_time=tmp
+                print("Your guess time is ",my_guess_time)
+                input("Press Enter to continue...")
+            except:
+                print('please input integer')
+                input("Press Enter to continue...")
+    return my_ans,my_guess_time
+
 def MyGuess(num):
     tmp=[]
     play_num=4
@@ -56,14 +79,36 @@ def easy_com(already_guess={},my_ans=[],play_num=4,guess_time=0):
         print(tmp[0],"A ",tmp[1],"B")
         return already_guess,guess_time,fin
 
+def smart_com(already_guess={},my_ans=[],paly_num=4,guess_time=0):
+    print("Coming soon...")
+
 num=[0,1,2,3,4,5,6,7,8,9]
 play_num=4
 ans=random.sample(num,k=play_num)
 guess_time=0
 while(1):
     game_mod=""
-    game_mod=input("Play for yourserlf, input 1\nPlay with Computer, input 2\nExit Game, input 0\ninput:")
-    if(game_mod=='1' or game_mod=='2'):
+    game_mod=input("Play for yourserlf, input 1\nPlay with Computer, input 2\nPlay with Hard Computer, input 3\nExit Game, input 0\ninput:")
+    if(game_mod=='1'):
+        while(1):
+            my_input=""
+            my_input=input("Please input "+str(play_num)+" different number(input 0 to return):")
+            if(my_input=='0'):
+                break
+            elif(my_input=='cheat'):
+                cheat(ans,guess_time)
+                continue
+            guess=MyGuess(int(my_input))
+            tmp=CheckNumber(ans,guess)
+            guess_time+=1
+            if(tmp[0]==play_num):
+                print("You win the game by ",guess_time," time guesses.")
+                input("Press Enter to continue...")
+                break
+            else:
+                print(tmp[0],"A ",tmp[1],"B")
+                input("Press Enter to continue...")
+    elif(game_mod=='2'):
         com_guess_time=0
         com_already_guess={}
         while(1):
@@ -71,19 +116,26 @@ while(1):
             my_input=input("Please input "+str(play_num)+" different number(input 0 to return):")
             if(my_input=='0'):
                 break
+            elif(my_input=='cheat'):
+                ans,guess_time=cheat(ans,guess_time)
+                continue
             guess=MyGuess(int(my_input))
             tmp=CheckNumber(ans,guess)
             guess_time+=1
             if(tmp[0]==play_num):
                 print("You win the game by ",guess_time," time guesses.")
+                input("Press Enter to continue...")
                 break
             else:
                 print(tmp[0],"A ",tmp[1],"B")
-            if(game_mod=='2'):
-                com_already_guess,com_guess_time,fin=easy_com(already_guess=com_already_guess,my_ans=ans,play_num=play_num,guess_time=com_guess_time)
-                if(fin==1):
-                    break
-    #elif(game_mod=='2'):
+                input("Press Enter to continue...")
+            com_already_guess,com_guess_time,fin=easy_com(already_guess=com_already_guess,my_ans=ans,play_num=play_num,guess_time=com_guess_time)
+            input("Press Enter to continue...")
+            if(fin==1):
+                break
+    elif(game_mod=='3'):
+        smart_com()
+        input("Press Enter to continue...")
     elif(game_mod=='0'):
         break
     
